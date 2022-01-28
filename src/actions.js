@@ -52,3 +52,31 @@ export const fetchPosts = () => {
     } 
  
 }
+
+export const deletePost = ( postId) => {
+    return (dispatch)=>{
+        axios.delete( `https://jsonplaceholder.typicode.com/posts/${postId}`).then(response=>{
+            dispatch({
+                type:'delete/post',
+                payload: postId
+            })
+            console.log('postId: ',postId)
+            console.log('delete: ',response)
+           }).catch(err=>{
+               console.log(err)
+           })
+    } 
+}
+
+export const updatePost = (postId ,content) => {
+    return (dispatch)=>{
+        axios.put( `https://jsonplaceholder.typicode.com/posts/${postId}`).then(response=>{
+            dispatch({
+                type:'update/post',
+                payload: content
+            })
+           }).catch(err=>{
+               console.log(err)
+           })
+    } 
+}
