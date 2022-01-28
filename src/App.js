@@ -70,9 +70,9 @@ class App extends Component {
           <span class="visually-hidden">Loading...</span>
         </div>) :
           <div class="container" style={{ paddingTop: 50 }}>
-            <div class="row ">
-              <div class="col align-self-center">
-                <div className="d-flex flex-column justify-content-center">
+            <div class="row justify-content-center">
+              <div class="col-10 align-self-center">
+                <div className="d-flex flex-column ">
 
                   {posts && currentPagePost.map((post) => post && <div  style={{paddingBottom:20}}key={post.id}><PostComponent post={post} comments={comments.filter(comment => comment.postId === post.id)} users={users} dispatch={dispatch} /> </div>)}
 

@@ -6,9 +6,9 @@ export const CommentsComponent = ({ comments }) => {
     const showComments = () => setOpenComments(!openComments)
 
     return <div>
-        <button className={"btn btn-link"} onClick={showComments}>{ openComments?'Hide Comments . . .' :' Read Comments . . .' }</button>
+        <button className={"btn btn-link"} onClick={showComments}>{ openComments?'Hide Comments' :' Read Comments . . .' }</button>
         {openComments && 
-        comments.map(comment => <div key={comment.id}> {comment.email} <br /> {comment.body} </div>)}
+        comments.map(comment => <div className='border border-info rounded p-2 m-2' key={comment.id}> <h6> {comment.email} </h6> <p>{comment.body}</p> </div>)}
 
     </div> 
    

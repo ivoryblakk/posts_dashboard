@@ -1,5 +1,7 @@
 
-
+.App{
+  background-color: slategray;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
