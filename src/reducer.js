@@ -52,6 +52,14 @@ export default function appReducer(state = initialState, action) {
         comments: state.comments.filter(comment => comment.postId !== action.payload),
       }
 
+    case 'update/post':
+      const updatedPost = state.posts.map((post) =>
+        post.id === action.payload.id ? action.payload : post )
+      return {
+        ...state,
+        posts: updatedPost,
+      }
+
     default:
       return state
   }

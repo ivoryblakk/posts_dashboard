@@ -4,12 +4,15 @@ import { fetchComments, fetchUsers, fetchPosts } from './actions'
 import { connect } from 'react-redux';
 import Pagination from 'react-responsive-pagination';
 import { PostComponent } from './components/Post';
+import {EditPostModal} from './components/Modal'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 1
+      currentPage: 1,
+      isModalOpen: false,
+      post: null
     }
   }
 
@@ -48,10 +51,19 @@ class App extends Component {
     sessionStorage.setItem("comments", JSON.stringify(comments))
   }
 
+  setModal =(post)=>{
+    const {isModalOpen} = this.state
+    if(post){
+      this.setState({ post:post , isModalOpen :!isModalOpen })
+    } else{
+      this.setState({ isModalOpen :!isModalOpen })
+    }
+  }
+
 
   render() {
     const { isFetching, dispatch, posts, users, comments } = this.props;
-    const { currentPage } = this.state
+    const { currentPage, isModalOpen, post } = this.state
     const totalPages = this.props.posts.length % 10 === 0 ? this.props.posts.length / 10 : this.props.posts.length / 10 + 1
     const currentPagePost = posts.filter((post, index) => {
       if (currentPage === 1) {
@@ -59,23 +71,18 @@ class App extends Component {
       }
       return index > (currentPage - 1) * 10 - 1 && index < (currentPage - 1) * 10 + 10
     })
-    // console.log('posts', posts)
     console.log('totalPages', Math.floor(totalPages))
     console.log('currentPage', currentPage)
-    // console.log('users',users)
-    // console.log('comments',comments)
     return (
       <div className="App">
-        {isFetching ? (<div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
+        {isFetching ? (<div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>) :
-          <div class="container" style={{ paddingTop: 50 }}>
-            <div class="row justify-content-center">
-              <div class="col-10 align-self-center">
+          <div className="container" style={{ paddingTop: 50 }}>
+            <div className="row justify-content-center">
+              <div className="col-10 align-self-center">
                 <div className="d-flex flex-column ">
-
-                  {posts && currentPagePost.map((post) => post && <div  style={{paddingBottom:20}}key={post.id}><PostComponent post={post} comments={comments.filter(comment => comment.postId === post.id)} users={users} dispatch={dispatch} /> </div>)}
-
+                  {posts && currentPagePost.map((post) => post && <div style={{ paddingBottom: 20 }} key={post.id}><PostComponent post={post} comments={comments.filter(comment => comment.postId === post.id)} users={users} dispatch={dispatch} handleModal={this.setModal} /> </div>)}
                   <Pagination
                     current={currentPage}
                     total={Math.floor(totalPages)}
@@ -85,6 +92,8 @@ class App extends Component {
               </div>
             </div>
           </div>}
+
+       {post && <EditPostModal isModalOpen={isModalOpen}  handleModal={this.setModal}  dispatch={dispatch} post={post} />}
       </div>
     );
   }
