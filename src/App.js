@@ -4,7 +4,6 @@ import { fetchComments, fetchUsers, fetchPosts } from './actions'
 import { connect } from 'react-redux';
 import Pagination from 'react-responsive-pagination';
 import { PostComponent } from './components/Post';
-import {EditPostModal} from './components/Modal'
 
 class App extends Component {
   constructor(props) {
@@ -63,7 +62,7 @@ class App extends Component {
 
   render() {
     const { isFetching, dispatch, posts, users, comments } = this.props;
-    const { currentPage, isModalOpen, post } = this.state
+    const { currentPage } = this.state
     const totalPages = this.props.posts.length % 10 === 0 ? this.props.posts.length / 10 : this.props.posts.length / 10 + 1
     const currentPagePost = posts.filter((post, index) => {
       if (currentPage === 1) {
@@ -71,8 +70,7 @@ class App extends Component {
       }
       return index > (currentPage - 1) * 10 - 1 && index < (currentPage - 1) * 10 + 10
     })
-    console.log('totalPages', Math.floor(totalPages))
-    console.log('currentPage', currentPage)
+
     return (
       <div className="App">
         {isFetching ? (<div className="spinner-border" role="status">
@@ -92,8 +90,6 @@ class App extends Component {
               </div>
             </div>
           </div>}
-
-       {post && <EditPostModal isModalOpen={isModalOpen}  handleModal={this.setModal}  dispatch={dispatch} post={post} />}
       </div>
     );
   }
