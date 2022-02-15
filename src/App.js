@@ -20,11 +20,11 @@ class App extends Component {
     window.addEventListener('beforeunload', this.componentCleanup);
 
     if (!!JSON.parse(sessionStorage.getItem("posts")) && !!JSON.parse(sessionStorage.getItem("comments"))) {
-      dispatch({ type: 'isFetching', payload: true })
+      await dispatch({ type: 'isFetching', payload: true })
       await dispatch({ type: 'users/rehydrate' });
       await dispatch({ type: 'posts/rehydrate' })
       await dispatch({ type: 'comments/rehydrate' })
-      dispatch({ type: 'isFetching', payload: false })
+      await dispatch({ type: 'isFetching', payload: false })
     }
     else {
       await dispatch(fetchUsers());
